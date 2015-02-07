@@ -1,6 +1,35 @@
 {
-    "scripts": { 
-        "start": "node server.js" 
+    "name": "Chatty",
+    "version": "0.1.2",
+    "description": "Chatty, a simple web chat room",
+    "keywords": ["OpenShift", "Node.js", "application", "socket.io"],
+    "homepage": "https://github.com/jeremyosborne/chatty",
+    "author": {
+        "name": "Jeremy Osborne",
+        "email": "jeremywosborne@gmail.com",
+        "url": "http://jeremyosborne.com/"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jeremyosborne/chatty.git"
+    },
+    "engines": {
+        "node": ">= 0.6.0",
+        "npm": ">= 1.0.0"
+    },
+
+    "dependencies": {
+        "optimist": "0.3.x",
+        "socket.io": "0.9.16",
+        "express": "3.x"
+    },
+    "devDependencies": {},
+    "bundleDependencies": [],
+
+    "scripts": { 
+        "start": "node server.js --websocket-port=8000 --log-level=1" 
+    },
+
+    "private": true,
     "main": "server.js"
 }
