@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>chatty web client</title>
+        <style>
+        div.name {
+            display: inline-block;
+            color: blue;
+        }
+        div.names {
+            display: inline-block;
+            color: red;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="client"></div>
+
+        <script type="text/javascript">
+            window.onair = false;
+            
+            socketload = function() {
+                window.uname = prompt('Nhap ten: ');
+                window.bodyx = document.getElementById('client');
+                if (ws = new WebSocket('ws://nodejs-nbjava.rhcloud.com:8000')) {
+                    var xc = function(data) {
+                        var divx  = document.createElement('div');
+                        divx.innerHTML = data;
+                        return bodyx.appendChild(divx);
+                    }
+                    ws.onopen = function(){
+                        xc('Kết nối đến máy chủ thành công...');
+                        ws.send(uname);
+                        onair = true;
+                    };
+                    ws.onclose = function(){
+                        xc('Mất kết nối với máy chủ...');
+                        onair = false;
+                        /*var recon = setInterval(function(){
+                            socketload();
+                            if (onair) {
+                                clearInterval(recon);
+                            }
+                        }, 888);*/
+                    };
+                    ws.onmessage = function(data) {
+                        var dt = JSON.parse(data.data);
+                        xc(dt.user +': '+ dt.text);
+                    }
+                    ws.onerror = function(er) {
+                        console.log(er);
+                    }
+                //console.log(ws)
+                }
+            }
+            window.onload = socketload();
+            window.sendata = function(t, e) {
+                if (e.keyCode === 13) {
+                    ws.send(t.value);
+                    t.value = '';
+                }
+            }
+        </script>
+
+        <input type="text" onkeyup="window.sendata(this, event)"/>
+    </body>
+</html>
